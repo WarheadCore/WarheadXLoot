@@ -137,6 +137,12 @@ local defaults = {
 			ap = 'always',
 		},
 
+		autoloots_quality =
+		{
+			boe_quality = 3,
+			bop_quality = 3,
+		},
+
 		autoloot_item_list = '',
 		autoloot_blackitem_list = '',
 
@@ -644,15 +650,18 @@ do
 		self.text_info:SetText(text_info)
 		self.text_bind:SetText(text_bind)
 		self.text_quantity:SetText(slotData.quantity > 1 and slotData.quantity or nil)
+
 		if slotData.questID or slotData.isQuestItem then
 			self.text_info:SetTextColor(1, .8, .1)
 		else
 			self.text_info:SetTextColor(owner:GetColor('loot_color_info'))
 		end
+
 		local name_width = self.text_name:GetStringWidth()
 
 		-- Icon
 		self.texture_item:SetTexture(slotData.icon)
+
 		if slotData.locked and opt.loot_texts_lock then
 			self.text_locked:Show()
 		else
@@ -662,6 +671,7 @@ do
 		-- Layout
 		if self.layout ~= layout then
 			self.layout = layout
+
 			if layout == 'simple' then
 				self.text_name:SetPoint('LEFT', self.frame_item, 'RIGHT', 2, 0)
 			else
@@ -847,7 +857,6 @@ do
 	-- function FramePrototype:SetAlpha(alpha)
 	-- 	self.backdrop:SetAlpha(alpha)
 	-- end
-
 
 	-- Link loot menu
 	function FramePrototype:LinkClick(button)
@@ -1064,6 +1073,7 @@ end
 
 -- Main loot handler
 local auto, auto_items, auto_blackitems = {}, {}, {}
+
 function XLootFrame:ParseAutolootList()
 	wipe(auto_items)
 	wipe(auto_blackitems)
@@ -1085,7 +1095,6 @@ local auto_states = {
 	party = nil,
 	raid = nil
 }
-
 
 function addon:PARTY_MEMBERS_CHANGED()
 	auto_states.solo = not IsInGroup()
@@ -1135,7 +1144,8 @@ function XLootFrame:Update(no_snap, is_refresh)
 	end
 
 	-- Update rows
-	local max_quality, max_width, our_slot, slot, need_refresh = 0, 0, 0
+	local max_quality, max_width, our_slot = 0, 0, 0
+	local need_refresh = false
 
 	for slot = 1, numloot do
 		local _, icon, name, quantity, quality, locked, isQuestItem, questID, startsQuest = pcall(GetLootSlotInfo, slot)
@@ -1190,14 +1200,14 @@ function XLootFrame:Update(no_snap, is_refresh)
 				-- Quest items
 				elseif auto.quest and (isQuestItem or startsQuest) then
 					autoloot = true
-				-- BoE items
-				elseif auto.boe and slotData.bindType == 2 then
-					autoloot = true
-				-- BoP items
-				elseif auto.bop and slotData.bindType == 1 then
-					autoloot = true
 				-- AP items
 				elseif auto.ap and IsArtifactPowerItem(name) then
+					autoloot = true
+				-- BoE items
+				elseif (auto.boe and slotData.bindType == 2) and (quality >= opt.autoloots_quality.boe_quality) then
+					autoloot = true
+				-- BoP items
+				elseif (auto.bop and slotData.bindType == 1) and (quality >= opt.autoloots_quality.bop_quality) then
 					autoloot = true
 				-- Autolooting tradegoods and listed items
 				elseif (auto.list and auto_items[name]) or (auto.tradegoods and slotData.isCraftingReagent)

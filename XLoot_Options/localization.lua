@@ -31,8 +31,12 @@ local locales = {
 
 			autoloot_boe = "Автолут BoE",
 			autoloot_boe_desc = "Автолут BoE предметов",
+			autoloot_boe_quality = "Автолут BoE минимальное качество",
+			autoloot_boe_quality_desc = "Автолут BoE предметов с минимальным качеством",
 			autoloot_bop = "Автолут BoP",
 			autoloot_bop_desc = "Автолут персональных при поднятии предметов",
+			autoloot_bop_quality = "Автолут BoP минимальное качество",
+			autoloot_bop_quality_desc = "Автолут персональных при поднятии предметов с минимальным качеством",
 			autoloot_ap = "Автолут Силы артефакта",
 			autoloot_ap_desc = "Автолут предметов для силы артефакта",
 
@@ -78,11 +82,9 @@ local locales = {
 			linkall_channel = "Default chat link channel",
 			linkall_show = "Link button visibility",
 
-			autolooting_text = "XLoot's autolooting features act separately from the default UI. As such, if both are enabled, you may recieve warnings like 'that object is busy'. They are safe to ignore, but can be resolved by picking one autoloot method to use exclusively.",
-
-			autolooting_list = "To automatically loot specific items, list them below.\n  Example: Linen Cloth,Ashbringer,Copper Ore",
-
-			autolooting_details = "XLoot will choose the highest setting when deciding to loot a slot. This allows, for example, auto looting everything while solo yet only quest items and money while in a group.",
+			autolooting_text = "|cFFFF0000Warhead:|r XLoot Может автоматически собирать вещи по определённым фильтрам, которые заданы ниже.",
+			autolooting_list = "Авто лут спецефичных вещей. Необходимо указывать через запятую.\nНапример: Подсвеченный маной мешок,Добыча кровавого охотника",
+			autolooting_details = "|cFFFF0000Warhead:|r XLoot будет выбирать наивысшие настройки при принятии решения об луте слота. Это позволяет, например, автоматически лутать все в одиночку, а в группе - только квестовые предметы и голду.",
 
 			show_slot_errors = "Looting errors in chat",
 			show_slot_errors_details = "Print a chat message when a loot item cannot be shown for some reason. Most of these should be able to be safely ignored.",
